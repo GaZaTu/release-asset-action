@@ -18,6 +18,11 @@ async function uploadMultiple(fileList, context, octokit, url) {
 
 async function upload(filePath, context, octokit, url) {
   filePath = filePath.trim();
+  
+  if (!fs.lstatSync(filePath).isFile()) {
+    return;
+  }
+  
   let file = fs.readFileSync(filePath);
   let fileName = path.basename(filePath);
   let mimeType = mime.lookup(fileName) || 'application/octet-stream';
